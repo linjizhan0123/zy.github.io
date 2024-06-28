@@ -1,0 +1,30 @@
+.ll {
+    height: 80px;
+    background-color: rgb(148, 143, 143);
+}
+td {
+    background-color: rgb(100, 233, 166);
+    width: 70px;height: 35px;
+    text-align: center;
+    color: burlywood;
+}
+div {
+    width: 350px;
+    height: 276px;
+    background-color: rgb(181, 170, 192);
+}
+.xx :hover {
+    background-color: pink;
+    color: aqua;
+}
+.xx td:active {
+    background-color: rgb(16, 15, 15);
+}
+input {
+    width: 290px;
+    height: 66px;
+    background-color: paleturquoise;
+}
+.hhh {
+    margin-left: 143px;
+}
