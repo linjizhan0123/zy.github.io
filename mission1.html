@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜数字游戏</title>
+    <style>
+        html {
+          font-family: sans-serif;
+        }
+  
+        body {
+          width: 50%;
+          max-width: 800px;
+          min-width: 480px;
+          margin: 0 auto;
+        }
+        
+        .form input[type="number"] {
+          width: 200px;
+        }
+  
+        .lastResult {
+          color: white;
+          padding: 3px;
+        }
+      </style>
+</head>
+<body>
+    <h1>猜数字游戏</h1>
+
+    <p>我们已经在1到100之间随机选择了一个数字。看看你能否在10次或更少的机会内猜中它。我们会告诉你你的猜测是太高还是太低。</p>
+
+    <div class="form">
+      <label for="guessField">输入一个猜测：</label>
+      <input type="number" min="1" max="100" required id="guessField" class="guessField">
+      <input type="submit" value="提交猜测" class="guessSubmit" onclick="guessNumber()">
+    </div>
+
+    <div class="resultParas">
+      <p class="guesses"></p>
+      <p class="lastResult"></p>
+      <p class="lowOrHi"></p>
+    </div>
+
+    <button id="restartButton" style="display:none" onclick="startGame()">重新开始游戏</button>
+
+    <script>
+        var secretNumber;
+        var attempts;
+
+        function guessNumber() {
+            var guess = parseInt(document.getElementById('guessField').value);
+            var result = document.querySelector('.resultParas');
+
+            if (guess === secretNumber) {
+                result.innerHTML = '<p>恭喜你猜对了！</p>';
+                document.getElementById('guessField').disabled = true;
+                document.getElementById('restartButton').style.display = 'block';
+            } else if (guess < secretNumber) {
+                result.innerHTML += '<p>你猜的数字太低了，请再试一次。</p>';
+                result.innerHTML += '<p>提示：正确答案在' + (guess + 1) + '到100之间。</p>';
+                attempts++;
+            } else {
+                result.innerHTML += '<p>你猜的数字太高了，请再试一次。</p>';
+                result.innerHTML += '<p>提示：正确答案在1到' + (guess - 1) + '之间。</p>';
+                attempts++;
+            }
+
+            if (attempts >= 10) {
+                result.innerHTML += '<p>游戏结束，正确答案是 ' + secretNumber + '</p>';
+                document.getElementById('guessField').disabled = true;
+                document.getElementById('restartButton').style.display = 'block';
+            }
+        }
+
+        startGame(); // 初始化游戏
+    </script>
+</body>
+</html>

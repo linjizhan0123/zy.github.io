@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>笑话生成器</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            width: 350px;
+        }
+        label {
+            font-weight: bold;  
+        }
+        div {
+            padding-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 5px;
+            width: 150px;
+        }
+        p {
+            background: #e2c886;
+            color: #b34b26;
+            padding: 10px;
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+      <label for="customname">输入自定义名字：</label>
+      <input id="customname" type="text" placeholder="李雷">
+    </div>
+    <div>
+      <label for="metric">公制</label><input id="metric" type="radio" name="measure" value="metric" checked>
+      <label for="american">美制</label><input id="american" type="radio" name="measure" value="american">
+    </div>
+    <div>
+      <button class="randomize" id="generateButton">生成随机笑话</button>
+    </div>
+    <p id="output" class="story"></p>
+    <script>
+        let DD = ['怪兽威利', '大老爹', '圣诞老人'];
+        let YY = ['肯德基', '迪士尼乐园', '白宫'];
+        let LL = ['自燃了', '在人行道化成了一坨泥', '变成一只鼻涕虫爬走了'];
+
+        function generateSentence() {
+            let customname = document.getElementById('customname').value;
+            let randomIndexDD = Math.floor(Math.random() * DD.length);
+            let randomIndexYY = Math.floor(Math.random() * YY.length);
+            let randomIndexLL = Math.floor(Math.random() * LL.length);
+            let HH = `今天气温 35 摄氏度，${customname}出门散步。当走到${YY[randomIndexYY]}门前时，突然就${LL[randomIndexLL]}。人们都惊呆了，${customname}全程目睹但并没有慌，因为${DD[randomIndexDD]}是一个 140 公斤的胖子，天气又辣么热。`;
+            let outputDiv = document.getElementById('output');
+            outputDiv.innerText = HH;
+            outputDiv.style.visibility = 'visible';
+        }
+
+        let button = document.getElementById('generateButton');
+        button.addEventListener('click', generateSentence);
+    </script>
+</body>
+</html>
