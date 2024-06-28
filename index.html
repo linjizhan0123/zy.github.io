@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet"  href="css/xx.css" type="text/css"/>
+<title>DAY2.CSS</title>
+<style>
+    input {
+        width: 290px;
+        height: 66px;
+        background-color: paleturquoise;
+    }
+</style>
+</head>
+<body>
+    <p>计算器</p>
+    <div>
+        <table>
+            <tr class="ll">
+                <td colspan="5">
+                    <input type="text"  id="display" readonly>
+                </td>
+            </tr>
+            <tr class="xx">
+                <td onclick="count(this)">sin</td>
+                <td onclick="handleOutput(this)">π</td>
+                <td onclick="count(this)">C</td>
+                <td onclick="count(this)">CE</td>
+                <td onclick="count(this)">/</td>
+            </tr>
+            <tr class="xx">
+                <td onclick="count(this)">cos</td>
+                <td onclick="count(this)">7</td>
+                <td onclick="count(this)">8</td>
+                <td onclick="count(this)">9</td>
+                <td onclick="count(this)">*</td>
+            </tr>
+            <tr class="xx">
+                <td onclick="count(this)">tan</td>
+                <td onclick="count(this)">4</td>
+                <td onclick="count(this)">5</td>
+                <td onclick="count(this)">6</td>
+                <td onclick="count(this)">-</td>
+            </tr>
+            <tr  class="xx">
+                <td onclick="count(this)">x²</td>
+                <td onclick="count(this)">1</td>
+                <td onclick="count(this)">2</td>
+                <td onclick="count(this)">3</td>
+                <td onclick="count(this)">+</td>
+            </tr>
+            <tr class="xx">
+                <td onclick="count(this)">(</td>
+                <td onclick="count(this)">)</td>
+                <td onclick="count(this)">0</td>
+                <td onclick="count(this)">.</td>
+                <td onclick="count(this)">=</td>
+            </tr>
+        </table>
+    </div>
+    <script>  
+        function addToDisplay(element) {  
+            var display = document.getElementById('display');  
+            display.value += element.textContent; // 追加点击的按钮的内容到显示区域  
+        }  
+      
+        function calculateResult() {  
+            var display = document.getElementById('display');  
+            var expression = display.value;  
+              
+            try {  
+                var result = eval(expression);  
+                display.value = result; // 显示结果  
+            } catch (error) {  
+                alert('哎呦！格式有问题请重新修改!');   
+            }  
+        }  
+      
+        var buttons = document.querySelectorAll('.xx td'); // 选择所有 .xx 下的 td  
+        buttons.forEach(function(button) {  
+            button.addEventListener('click', function() {  
+                var text = this.textContent;  
+                if (text === 'CE') {  
+                    var display = document.getElementById('display');  
+                    if (display.value.length > 0) {  
+                        display.value = display.value.slice(0, -1); // 清除最后一个字符  
+                    }  
+                } else if (text === 'C') {  
+                    var display = document.getElementById('display');  
+                    display.value = ''; // 清除全部输出  
+                } else if (['-', '+', '/', '*'].includes(text)) {  
+                    addToDisplay(this);  
+                } else if (text === '=') {  
+                    calculateResult();  
+                } else if (text === 'π') {  
+                    var piValue = Math.PI.toFixed(7);
+                    addToDisplay(this); // 将 π 的值添加到显示区域  
+                } else {  
+                    addToDisplay(this); // 当点击的是其他按钮时，调用 addToDisplay 函数  
+                }  
+            });  
+        });
+    </script>
+</body>
+</html>
