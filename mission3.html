@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <label for="weather">选择月份：</label>
+    <select id="rili">
+    <option value="">--作出选择--</option>
+    <option value="January">1月</option>
+    <option value="February">2月</option>
+    <option value="March">3月</option>
+    <option value="April">4月</option>
+    <option value="May">5月</option>
+    <option value="June">6月</option>
+    <option value="July">7月</option>
+    <option value="August">8月</option>
+    <option value="September">9月</option>
+    <option value="October">10月</option>
+    <option value="November">11月</option>
+    <option value="December">12月</option>
+    </select>
+    <br><br>
+    <table id="calendar">
+        <tr>
+            <th>日</th>
+            <th>一</th>
+            <th>二</th>
+            <th>三</th>
+            <th>四</th>
+            <th>五</th>
+            <th>六</th>
+        </tr>
+    </table>
+
+    <script>
+        var xx = document.querySelector('#rili');
+        var day31 = ['January', 'March', 'May', 'July', 'August', 'October', 'December'];
+        var day28 = ['February'];
+        var day30 = ['April', 'June', 'September', 'November'];
+        xx.addEventListener("change", vvv)
+
+        function vvv() {
+            var tag = document.querySelector('#rili');
+            var cc = tag.value;
+            var day1 = 31;
+            var day2 = 30;
+            var day3 = 28;
+            console.log('tag');
+            if (day31.includes(cc)) {
+                daysInMonth = day1;
+            } else if (day30.includes(cc)) {
+                daysInMonth = day2;
+            } else if (day28.includes(cc)) {
+                daysInMonth = day3;
+            } else {
+               
+                return;
+            }
+            var table = document.getElementById('calendar');
+                table.innerHTML = '<tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr>';
+                var date = new Date('2022-' + cc + '-01');
+                var day = date.getDay();
+                var count = 1;
+                var row = table.insertRow(-1);
+
+                for (var i = 0; i < 42; i++) {
+                    var cell = row.insertCell(-1);
+                    if (i >= day && count <= daysInMonth) {
+                        cell.textContent = count;
+                        count++;
+                    }
+                    if (i % 7 === 6) {
+                        row = table.insertRow(-1);
+                    }
+                }
+            }
+    </script>
+</body>
+</html>
