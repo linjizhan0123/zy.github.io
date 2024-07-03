@@ -24,7 +24,7 @@
           color: white;
           padding: 3px;
         }
-      </style>
+    </style>
 </head>
 <body>
     <h1>猜数字游戏</h1>
@@ -34,7 +34,7 @@
     <div class="form">
       <label for="guessField">输入一个猜测：</label>
       <input type="number" min="1" max="100" required id="guessField" class="guessField">
-      <input type="submit" value="提交猜测" class="guessSubmit" onclick="guessNumber()">
+      <input type="button" value="提交猜测" class="guessSubmit" onclick="guessNumber()">
     </div>
 
     <div class="resultParas">
@@ -49,28 +49,51 @@
         var secretNumber;
         var attempts;
 
+        function startGame() {
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            document.getElementById('guessField').disabled = false;
+            document.getElementById('restartButton').style.display = 'none';
+            document.querySelector('.resultParas').innerHTML = '';
+            document.getElementById('guessField').value = '';
+        }
+
         function guessNumber() {
             var guess = parseInt(document.getElementById('guessField').value);
             var result = document.querySelector('.resultParas');
 
+            if (isNaN(guess)) {
+                result.innerHTML = '<p>请输入一个有效的数字。</p>';
+                return;
+            }
+
+            attempts++;
             if (guess === secretNumber) {
                 result.innerHTML = '<p>恭喜你猜对了！</p>';
                 document.getElementById('guessField').disabled = true;
                 document.getElementById('restartButton').style.display = 'block';
-            } else if (guess < secretNumber) {
-                result.innerHTML += '<p>你猜的数字太低了，请再试一次。</p>';
-                result.innerHTML += '<p>提示：正确答案在' + (guess + 1) + '到100之间。</p>';
-                attempts++;
-            } else {
-                result.innerHTML += '<p>你猜的数字太高了，请再试一次。</p>';
-                result.innerHTML += '<p>提示：正确答案在1到' + (guess - 1) + '之间。</p>';
-                attempts++;
-            }
-
-            if (attempts >= 10) {
-                result.innerHTML += '<p>游戏结束，正确答案是 ' + secretNumber + '</p>';
+            } else if (attempts >= 10) {
+                result.innerHTML = '<p>游戏结束，正确答案是 ' + secretNumber + '</p>';
                 document.getElementById('guessField').disabled = true;
                 document.getElementById('restartButton').style.display = 'block';
+            } else if (guess < secretNumber) {
+                result.innerHTML += '<p>你猜的数字太低了，请再试一次。</p>';
+                if (guess < 50 && secretNumber > 50) {
+                    result.innerHTML += '<p>提示：正确答案在50到100之间。</p>';
+                } else if (guess < 50 && secretNumber <= 50) {
+                    result.innerHTML += '<p>提示：正确答案在' + (guess + 1) + '到50之间。</p>';
+                } else if (guess >= 50 && secretNumber > guess) {
+                    result.innerHTML += '<p>提示：正确答案在' + (guess + 1) + '到100之间。</p>';
+                }
+            } else {
+                result.innerHTML += '<p>你猜的数字太高了，请再试一次。</p>';
+                if (guess > 50 && secretNumber < 50) {
+                    result.innerHTML += '<p>提示：正确答案在1到50之间。</p>';
+                } else if (guess > 50 && secretNumber >= 50) {
+                    result.innerHTML += '<p>提示：正确答案在50到' + (guess - 1) + '之间。</p>';
+                } else if (guess <= 50 && secretNumber < guess) {
+                    result.innerHTML += '<p>提示：正确答案在1到' + (guess - 1) + '之间。</p>';
+                }
             }
         }
 
