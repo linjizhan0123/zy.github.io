@@ -2,18 +2,44 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet"  href="css/xx.css" type="text/css"/>
+<link rel="stylesheet" href="css/xx.css" type="text/css"/>
 <title>DAY2.CSS</title>
 <style>
+    /* 添加一些基本的样式 */
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .hhh {
+        font-size: 24px;
+        font-weight: bold;
+        margin-left: 100px;
+    }
+    table {
+        margin: 0 auto;
+        border-collapse: collapse;
+    }
+    td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+    }
+    input[type="text"] {
+        width: 300px;
+        padding: 10px;
+        text-align: right;
+        border: none;
+        font-size: 18px;
+    }
 </style>
 </head>
 <body>
-    <p class="hhh">超级计算器</p>
+    <p class="hhh" style="text-align: left;">超级计算器</p>
     <div>
         <table>
             <tr class="ll">
                 <td colspan="5">
-                    <input type="text"  id="display" readonly>
+                    <input type="text" id="display" readonly>
                 </td>
             </tr>
             <tr class="xx">
@@ -37,7 +63,7 @@
                 <td onclick="count(this)">6</td>
                 <td onclick="count(this)">-</td>
             </tr>
-            <tr  class="xx">
+            <tr class="xx">
                 <td onclick="count(this)">square</td>
                 <td onclick="count(this)">1</td>
                 <td onclick="count(this)">2</td>
@@ -53,82 +79,103 @@
             </tr>
         </table>
     </div>
-    <script>  
-        function addToDisplay(element) {  
-            var display = document.getElementById('display');  
-            display.value += element.textContent; // 追加点击的按钮的内容到显示区域  
-        }  
-      
-        function calculateResult() {  
-            var display = document.getElementById('display');  
-            var expression = display.value;  
-              
-            try {  
-                // 注意：eval()有安全风险，这里仅作为示例  
-                var result = eval(expression);  
-                display.value = result; // 显示结果  
-            } catch (error) {  
-                alert('哎呦！格式有问题请重新修改!');   
-            }  
-        }  
-      
-        var buttons = document.querySelectorAll('.xx td'); // 选择所有 .xx 下的 td  
-        buttons.forEach(function(button) {  
-            button.addEventListener('click', function() {  
-                var text = this.textContent;  
-                if (text === 'CE') { // 检查是否是 "CE" 按钮  
-                    var display = document.getElementById('display');  
-                    if (display.value.length > 0) {  
-                        display.value = display.value.slice(0, -1); // 清除最后一个字符  
-                    }  
-                } else if (text === 'C') { // 检查是否是 "C" 按钮  
-                    var display = document.getElementById('display');  
-                    display.value = ''; // 清除全部输出  
-                } else if (['-', '+', '/', '*'].includes(text)) { // 检查是否是运算符  
-                    addToDisplay(this);  
-                } else if (text === '=') { // 检查是否是等号  
-                    calculateResult();  
-                } else if (text === 'sin') { // 检查是否是 "sin" 按钮  
+    <script>
+        let a = null; // 存储第一个操作数
+        let b = null; // 存储第二个操作数
+        let operator = null; // 存储上一次的运算符
+        let currentValue = 0; // 当前显示的值
+
+        function addToDisplay(element) {
+            var display = document.getElementById('display');
+            display.value += element.textContent; // 追加点击的按钮的内容到显示区域
+            console.log('addToDisplay:', display.value); // 添加日志输出
+        }
+
+        function calculateResult() {
+            var display = document.getElementById('display');
+            var expression = display.value;
+
+            try {
+                // 注意：eval()有安全风险，这里仅作为示例
+                var result = eval(expression);
+                display.value = result; // 显示结果
+                console.log('calculateResult:', result); // 添加日志输出
+            } catch (error) {
+                alert('哎呦！格式有问题请重新修改!');
+            }
+        }
+
+        function handleTrigFunction(func) {
+            var display = document.getElementById('display');
+            if (display.value.length > 0) {
+                var inputValue = parseFloat(display.value);
+                var result;
+                switch (func) {
+                    case 'sin':
+                        result = Math.sin(inputValue * Math.PI / 180);
+                        break;
+                    case 'cos':
+                        result = Math.cos(inputValue * Math.PI / 180);
+                        break;
+                    case 'tan':
+                        result = Math.tan(inputValue * Math.PI / 180);
+                        break;
+                    case 'square':
+                        result = Math.pow(inputValue, 2);
+                        break;
+                    case 'π':
+                        result = Math.PI * inputValue;
+                        break;
+                }
+                display.value = result;
+                console.log('handleTrigFunction:', result); // 添加日志输出
+            }
+        }
+
+        var buttons = document.querySelectorAll('.xx td'); // 选择所有 .xx 下的 td
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var text = this.textContent;
+                console.log('Button clicked:', text); // 添加日志输出
+                if (text === 'CE') { // 检查是否是 "CE" 按钮
                     var display = document.getElementById('display');
                     if (display.value.length > 0) {
-                        var inputValue = parseFloat(display.value);
-                        var result = Math.sin(inputValue * Math.PI / 180);
-                        display.value = result;
+                        display.value = display.value.slice(0, -1); // 清除最后一个字符
+                        console.log('CE:', display.value); // 添加日志输出
                     }
-                } else if (text === 'cos') { // 检查是否是 "cos" 按钮  
+                } else if (text === 'C') { // 检查是否是 "C" 按钮
                     var display = document.getElementById('display');
-                    if (display.value.length > 0) {
-                        var inputValue = parseFloat(display.value);
-                        var result = Math.cos(inputValue * Math.PI / 180);
-                        display.value = result;
-                    }
-                } else if (text === 'tan') { // 检查是否是 "tan" 按钮  
-                    var display = document.getElementById('display');
-                    if (display.value.length > 0) {
-                        var inputValue = parseFloat(display.value);
-                        var result = Math.tan(inputValue * Math.PI / 180);
-                        display.value = result;
-                    }
-                } else if (text === 'square') { // 检查是否是 "square" 按钮
-                    var display = document.getElementById('display');
-                    if (display.value.length > 0) {
-                        var inputValue = parseFloat(display.value);
-                        var result = Math.pow(inputValue, 2); // 计算平方
-                        display.value = result;
-                    }
-                } else if (text === 'π') { // 检查是否是 "π" 按钮
-                    var display = document.getElementById('display');
-                    if (display.value.length > 0) {
-                        var inputValue = parseFloat(display.value);
-                        var result = Math.PI * inputValue;
-                        display.value = result;
-                    }
-                } else {  
-                    addToDisplay(this); // 当点击的是其他按钮时，调用 addToDisplay 函数  
-                }  
-            });  
+                    display.value = ''; // 清除全部输出
+                    console.log('C:', display.value); // 添加日志输出
+                } else if (['-', '+', '/', '*'].includes(text)) { // 检查是否是运算符
+                    addToDisplay(this);
+                } else if (text === '=') { // 检查是否是等号
+                    calculateResult();
+                } else if (['sin', 'cos', 'tan', 'square', 'π'].includes(text)) { // 检查是否是三角函数或特殊符号
+                    handleTrigFunction(text);
+                } else {
+                    addToDisplay(this); // 当点击的是其他按钮时，调用 addToDisplay 函数
+                }
+            });
         });
-          
+
+        document.addEventListener('keydown', function(event) {
+            const text = event.key;
+            var display = document.getElementById('display');
+
+            if (!isNaN(text) || text === '.') {
+                // 处理数字和小数点输入
+                display.value += text;
+                console.log('Keydown:', display.value); // 添加日志输出
+            } else if (['+', '-', '*', '/'].includes(text)) {
+                // 处理运算符输入
+                display.value += text;
+                console.log('Keydown:', display.value); // 添加日志输出
+            } else if (text === '=') {
+                // 处理等号输入
+                calculateResult();
+            }
+        });
     </script>
 </body>
 </html>
